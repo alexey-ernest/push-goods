@@ -3,6 +3,24 @@ extends layout
 block title
     title Push Goods
 
+block append scripts
+    script(src='/socket.io/socket.io.js')
+    script.
+        $(function () {
+            var socket = io.connect();
+            $('.product').click(function () {
+                socket.emit('product:click', $(this).attr('data-id'));
+            });
+            socket.on('message', function (data) {
+                //document.getElementById('data').innerHTML = data;
+            });
+        });
+
 block content
     h1 Push Goods
-    p Push notifications with goods customer really need in real time.
+    p Push goods to customer they really need in real time.
+    p
+        b Products
+    ul
+        each product in products
+            li.product(data-id=product.id)= product.name
