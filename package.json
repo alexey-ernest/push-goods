@@ -1,0 +1,33 @@
+{
+  "name": "push-goods",
+  "version": "1.0.0",
+  "description": "Push notifications with goods customer really need in real time",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexey-ernest/push-goods"
+  },
+  "keywords": [
+    "push-notification",
+    "goods",
+    "socket.io",
+    "node.js",
+    "real-time"
+  ],
+  "author": "Alexey Melnikov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexey-ernest/push-goods/issues"
+  },
+  "homepage": "https://github.com/alexey-ernest/push-goods",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.12.4",
+    "jade": "^1.11.0",
+    "socket.io": "^1.3.5"
+  }
+}
