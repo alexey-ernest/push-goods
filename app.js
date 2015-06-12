@@ -15,17 +15,32 @@ app.get('/', function (req, res, next) {
     });
 });
 
-app.get('/:id', function (req, res, next) {
-    Product.get(req.params.id, function (err, product) {
+app.get('/operator', function (req, res, next) {
+    Product.list(function (err, products) {
         if (err) return next(err);
-        res.send(product);
+        res.render('operator', { products: products });
     });
 });
 
-io.on('connection', function (socket) {
-    socket.on('product:click', function (id) {
-        console.log('Product with id ' + id + ' was clicked.');
+var operatorio = io.of('/operator');
+operatorio.on('connection', function (socket) {
+    socket.on('product:push', function (customer_id, product_id) {
+        Product.get(product_id, function (err, product) {
+            if (err) throw err;
+            customerio.to(customer_id).emit('product:push', product);
+        });
     });
 });
+
+var customerio = io.of('/customer');
+customerio.on('connection', function (socket) {
+    socket.on('product:view', function (id) {
+        Product.get(id, function (err, product) {
+            if (err) throw err;
+            operatorio.emit('product:view', socket.id, product);
+        });
+    });
+});
+
 
 module.exports = http;

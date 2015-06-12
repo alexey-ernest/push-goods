@@ -1,0 +1,31 @@
+extends layout
+
+block title
+    title Operator Console | Push Goods
+
+block append scripts
+    script(src='/socket.io/socket.io.js')
+    script.
+        $(function () {
+            var socket = io('localhost:3000/operator');
+            var customer_id;
+            socket.on('product:view', function (id, product) {
+                customer_id = id;
+                $('#view').append('<li>' + product.name + '</li>');
+            });
+            $('.product').click(function () {
+                socket.emit('product:push', customer_id, $(this).attr('data-id'));
+            });
+        });
+
+block content
+    h1 Operator Console
+
+    h2 Viewed Products
+    ul#view
+
+    h2 Products
+    ul
+        each product in products
+            li.product(data-id=product.id)= product.name
+    
